@@ -144,7 +144,7 @@ resource "aws_instance" "wordpress_ec2" {
   key_name               = "your-key-name"  # Replace with your SSH key pair name
 
   # TODO: Pass in the 4 variables to the user data script
-  user_data = "${file("wp_rds_install.sh")}"   
+  user_data = "${file("wp_install.sh")}"   
 
   tags = {
     Name = "WordPress EC2 Instance"
