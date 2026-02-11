@@ -54,4 +54,19 @@ jobs:
       - name: Terraform Apply
         if: ${{ github.event.inputs.action == 'Terraform_apply' }}
         run: terraform apply -auto-approve
+
+            # Destroy resources in AWS when destroying
+      - name: Terraform Destroy
+        if: ${{ github.event.inputs.action == 'Terraform_destroy' }}
+        run: terraform destroy -auto-approve -no-color | tee destroy.log
+
+      # Print the destroy summary line so it ALWAYS appears in logs
+      - name: Show Destroy Summary
+        if: ${{ github.event.inputs.action == 'Terraform_destroy' }}
+        run: |
+          echo "----- FILTERED SUMMARY -----"
+          grep -E "Destroy complete|Resources:" destroy.log || true
+          echo "----- LAST 60 LINES -----"
+          tail -n 60 destroy.log
+
         
